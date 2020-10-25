@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.zk.ZkHouseMapper">
+    
+    <resultMap type="ZkHouse" id="ZkHouseResult">
+        <result property="id"    column="id"    />
+        <result property="houseBlock"    column="house_block"    />
+        <result property="houseFloor"    column="house_floor"    />
+        <result property="houseNumber"    column="house_number"    />
+        <result property="houseSize"    column="house_size"    />
+        <result property="houseMoney"    column="house_money"    />
+        <result property="houseDescription"    column="house_description"    />
+        <result property="cityId"    column="city_id"    />
+    </resultMap>
+
+    <sql id="selectZkHouseVo">
+        select id, house_block, house_floor, house_number, house_size, house_money, house_description, city_id from zk_house
+    </sql>
+
+    <select id="selectZkHouseList" parameterType="ZkHouse" resultMap="ZkHouseResult">
+        <include refid="selectZkHouseVo"/>
+        <where>  
+            <if test="houseBlock != null  and houseBlock != ''"> and house_block = #{houseBlock}</if>
+            <if test="houseFloor != null  and houseFloor != ''"> and house_floor = #{houseFloor}</if>
+            <if test="houseNumber != null  and houseNumber != ''"> and house_number = #{houseNumber}</if>
+            <if test="houseSize != null  and houseSize != ''"> and house_size = #{houseSize}</if>
+            <if test="houseMoney != null  and houseMoney != ''"> and house_money = #{houseMoney}</if>
+            <if test="houseDescription != null  and houseDescription != ''"> and house_description = #{houseDescription}</if>
+            <if test="cityId != null  and cityId != ''"> and city_id = #{cityId}</if>
+        </where>
+    </select>
+    
+    <select id="selectZkHouseById" parameterType="String" resultMap="ZkHouseResult">
+        <include refid="selectZkHouseVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectZkHouseListByCityId" parameterType="String" resultMap="ZkHouseResult">
+        <include refid="selectZkHouseVo"/>
+        where city_id = #{cityId}
+    </select>
+
+        
+    <insert id="insertZkHouse" parameterType="ZkHouse">
+        insert into zk_house
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="houseBlock != null">house_block,</if>
+            <if test="houseFloor != null">house_floor,</if>
+            <if test="houseNumber != null">house_number,</if>
+            <if test="houseSize != null">house_size,</if>
+            <if test="houseMoney != null">house_money,</if>
+            <if test="houseDescription != null">house_description,</if>
+            <if test="cityId != null">city_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="houseBlock != null">#{houseBlock},</if>
+            <if test="houseFloor != null">#{houseFloor},</if>
+            <if test="houseNumber != null">#{houseNumber},</if>
+            <if test="houseSize != null">#{houseSize},</if>
+            <if test="houseMoney != null">#{houseMoney},</if>
+            <if test="houseDescription != null">#{houseDescription},</if>
+            <if test="cityId != null">#{cityId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZkHouse" parameterType="ZkHouse">
+        update zk_house
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="houseBlock != null">house_block = #{houseBlock},</if>
+            <if test="houseFloor != null">house_floor = #{houseFloor},</if>
+            <if test="houseNumber != null">house_number = #{houseNumber},</if>
+            <if test="houseSize != null">house_size = #{houseSize},</if>
+            <if test="houseMoney != null">house_money = #{houseMoney},</if>
+            <if test="houseDescription != null">house_description = #{houseDescription},</if>
+            <if test="cityId != null">city_id = #{cityId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZkHouseById" parameterType="String">
+        delete from zk_house where id = #{id}
+    </delete>
+
+    <delete id="deleteZkHouseByIds" parameterType="String">
+        delete from zk_house where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.zk.ZkCityMapper">
+    
+    <resultMap type="ZkCity" id="ZkCityResult">
+        <result property="id"    column="id"    />
+        <result property="cityDescription"    column="city_description"    />
+        <result property="waterPrice"    column="water_price"    />
+        <result property="elecPrice"    column="elec_price"    />
+    </resultMap>
+
+    <sql id="selectZkCityVo">
+        select id, city_description, water_price, elec_price from zk_city
+    </sql>
+
+    <select id="selectZkCityList" parameterType="ZkCity" resultMap="ZkCityResult">
+        <include refid="selectZkCityVo"/>
+        <where>  
+            <if test="cityDescription != null  and cityDescription != ''"> and city_description = #{cityDescription}</if>
+            <if test="waterPrice != null "> and water_price = #{waterPrice}</if>
+            <if test="elecPrice != null "> and elec_price = #{elecPrice}</if>
+        </where>
+    </select>
+    
+    <select id="selectZkCityById" parameterType="String" resultMap="ZkCityResult">
+        <include refid="selectZkCityVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertZkCity" parameterType="ZkCity">
+        insert into zk_city
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="cityDescription != null">city_description,</if>
+            <if test="waterPrice != null">water_price,</if>
+            <if test="elecPrice != null">elec_price,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="cityDescription != null">#{cityDescription},</if>
+            <if test="waterPrice != null">#{waterPrice},</if>
+            <if test="elecPrice != null">#{elecPrice},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZkCity" parameterType="ZkCity">
+        update zk_city
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cityDescription != null">city_description = #{cityDescription},</if>
+            <if test="waterPrice != null">water_price = #{waterPrice},</if>
+            <if test="elecPrice != null">elec_price = #{elecPrice},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZkCityById" parameterType="String">
+        delete from zk_city where id = #{id}
+    </delete>
+
+    <delete id="deleteZkCityByIds" parameterType="String">
+        delete from zk_city where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
