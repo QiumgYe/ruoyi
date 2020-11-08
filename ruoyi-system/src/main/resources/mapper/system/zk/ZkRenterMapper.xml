@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.zk.ZkRenterMapper">
+    
+    <resultMap type="ZkRenter" id="ZkRenterResult">
+        <result property="id"    column="id"    />
+        <result property="renterName"    column="renter_name"    />
+        <result property="renterAge"    column="renter_age"    />
+        <result property="renterSex"    column="renter_sex"    />
+        <result property="renterPhone"    column="renter_phone"    />
+        <result property="renterAddress"    column="renter_address"    />
+        <result property="renterIdCard"    column="renter_id_card"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="houseId"    column="house_id"    />
+    </resultMap>
+
+    <sql id="selectZkRenterVo">
+        select id, renter_name, renter_age, renter_sex, renter_phone, renter_address, renter_id_card, create_time, update_time, house_id from zk_renter
+    </sql>
+
+    <select id="selectZkRenterList" parameterType="ZkRenter" resultMap="ZkRenterResult">
+        <include refid="selectZkRenterVo"/>
+        <where>  
+            <if test="renterName != null  and renterName != ''"> and renter_name like concat('%', #{renterName}, '%')</if>
+            <if test="renterAge != null "> and renter_age = #{renterAge}</if>
+            <if test="renterSex != null  and renterSex != ''"> and renter_sex = #{renterSex}</if>
+            <if test="renterPhone != null  and renterPhone != ''"> and renter_phone = #{renterPhone}</if>
+            <if test="renterAddress != null  and renterAddress != ''"> and renter_address = #{renterAddress}</if>
+            <if test="renterIdCard != null  and renterIdCard != ''"> and renter_id_card = #{renterIdCard}</if>
+            <if test="houseId != null  and houseId != ''"> and house_id = #{houseId}</if>
+        </where>
+    </select>
+    
+    <select id="selectZkRenterById" parameterType="String" resultMap="ZkRenterResult">
+        <include refid="selectZkRenterVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectZkRenterListByHouseId" parameterType="String" resultMap="ZkRenterResult">
+        <include refid="selectZkRenterVo"/>
+        where house_id = #{houseId}
+    </select>
+        
+    <insert id="insertZkRenter" parameterType="ZkRenter">
+        insert into zk_renter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="renterName != null">renter_name,</if>
+            <if test="renterAge != null">renter_age,</if>
+            <if test="renterSex != null">renter_sex,</if>
+            <if test="renterPhone != null">renter_phone,</if>
+            <if test="renterAddress != null">renter_address,</if>
+            <if test="renterIdCard != null">renter_id_card,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="houseId != null">house_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="renterName != null">#{renterName},</if>
+            <if test="renterAge != null">#{renterAge},</if>
+            <if test="renterSex != null">#{renterSex},</if>
+            <if test="renterPhone != null">#{renterPhone},</if>
+            <if test="renterAddress != null">#{renterAddress},</if>
+            <if test="renterIdCard != null">#{renterIdCard},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="houseId != null">#{houseId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateZkRenter" parameterType="ZkRenter">
+        update zk_renter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="renterName != null">renter_name = #{renterName},</if>
+            <if test="renterAge != null">renter_age = #{renterAge},</if>
+            <if test="renterSex != null">renter_sex = #{renterSex},</if>
+            <if test="renterPhone != null">renter_phone = #{renterPhone},</if>
+            <if test="renterAddress != null">renter_address = #{renterAddress},</if>
+            <if test="renterIdCard != null">renter_id_card = #{renterIdCard},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="houseId != null">house_id = #{houseId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteZkRenterById" parameterType="String">
+        delete from zk_renter where id = #{id}
+    </delete>
+
+    <delete id="deleteZkRenterByIds" parameterType="String">
+        delete from zk_renter where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

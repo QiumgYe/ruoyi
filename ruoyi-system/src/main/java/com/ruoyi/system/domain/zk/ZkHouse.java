@@ -18,17 +18,6 @@ public class ZkHouse extends BaseEntity
     /** 房产id */
     private String id;
 
-    /** 栋数 */
-    @Excel(name = "栋数")
-    private String houseBlock;
-
-    /** 层数 */
-    @Excel(name = "层数")
-    private String houseFloor;
-
-    /** 号数 */
-    @Excel(name = "号数")
-    private String houseNumber;
 
     /** 平方数 */
     @Excel(name = "平方数")
@@ -46,7 +35,19 @@ public class ZkHouse extends BaseEntity
     @Excel(name = "城市id")
     private String cityId;
 
-    public void setId(String id) 
+    /** 房子名字 */
+    @Excel(name = "房子名字")
+    private String houseName;
+
+    public String getHouseName() {
+        return houseName;
+    }
+
+    public void setHouseName(String houseName) {
+        this.houseName = houseName;
+    }
+
+    public void setId(String id)
     {
         this.id = id;
     }
@@ -55,33 +56,7 @@ public class ZkHouse extends BaseEntity
     {
         return id;
     }
-    public void setHouseBlock(String houseBlock) 
-    {
-        this.houseBlock = houseBlock;
-    }
 
-    public String getHouseBlock() 
-    {
-        return houseBlock;
-    }
-    public void setHouseFloor(String houseFloor) 
-    {
-        this.houseFloor = houseFloor;
-    }
-
-    public String getHouseFloor() 
-    {
-        return houseFloor;
-    }
-    public void setHouseNumber(String houseNumber) 
-    {
-        this.houseNumber = houseNumber;
-    }
-
-    public String getHouseNumber() 
-    {
-        return houseNumber;
-    }
     public void setHouseSize(String houseSize) 
     {
         this.houseSize = houseSize;
@@ -123,12 +98,11 @@ public class ZkHouse extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("houseBlock", getHouseBlock())
-            .append("houseFloor", getHouseFloor())
-            .append("houseNumber", getHouseNumber())
+
             .append("houseSize", getHouseSize())
             .append("houseMoney", getHouseMoney())
             .append("houseDescription", getHouseDescription())
+                .append("houseName", getHouseName())
             .append("cityId", getCityId())
             .toString();
     }

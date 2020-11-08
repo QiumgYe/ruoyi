@@ -119,9 +119,8 @@
     <el-table v-loading="loading" :data="houseList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
 <!--      <el-table-column label="房产id" align="center" prop="id" />-->
-      <el-table-column label="栋数" align="center" prop="houseBlock" />
-      <el-table-column label="层数" align="center" prop="houseFloor" />
-      <el-table-column label="号数" align="center" prop="houseNumber" />
+      <el-table-column label="具体位置" align="center" prop="houseName" />
+
       <el-table-column label="平方数" align="center" prop="houseSize" />
       <el-table-column label="租金" align="center" prop="houseMoney" />
       <el-table-column label="房产描述" align="center" prop="houseDescription" />
@@ -162,16 +161,11 @@
           <span>{{this.city.name}}</span>
         </el-form-item>
 
+        <el-form-item label="名字" prop="houseBlock">
+          <el-input v-model="form.houseName" placeholder="请输入名字" />
+        </el-form-item>
 
-        <el-form-item label="栋数" prop="houseBlock">
-          <el-input v-model="form.houseBlock" placeholder="请输入栋数" />
-        </el-form-item>
-        <el-form-item label="层数" prop="houseFloor">
-          <el-input v-model="form.houseFloor" placeholder="请输入层数" />
-        </el-form-item>
-        <el-form-item label="号数" prop="houseNumber">
-          <el-input v-model="form.houseNumber" placeholder="请输入号数" />
-        </el-form-item>
+
         <el-form-item label="平方数" prop="houseSize">
           <el-input v-model="form.houseSize" placeholder="请输入平方数" />
         </el-form-item>
@@ -230,13 +224,12 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        houseBlock: null,
-        houseFloor: null,
-        houseNumber: null,
+
         houseSize: null,
         houseMoney: null,
         houseDescription: null,
-        cityId: null
+        cityId: null,
+        houseName: null
       },
       // 表单参数
       form: {},
@@ -268,13 +261,12 @@ export default {
     reset() {
       this.form = {
         id: null,
-        houseBlock: null,
-        houseFloor: null,
-        houseNumber: null,
+
         houseSize: null,
         houseMoney: null,
         houseDescription: null,
-        cityId: null
+        cityId: null,
+        houseName: null
       };
       this.resetForm("form");
     },
@@ -313,6 +305,7 @@ export default {
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
+
       getHouse(id).then(response => {
         this.form = response.data;
         this.open = true;
